@@ -1,12 +1,11 @@
 /*
-  EXAMPLE TASK:
+EXAMPLE TASK:
     - Write an Airplane constructor that initializes `name` from an argument.
     - All airplanes built with Airplane should initialize with an `isFlying` of false.
     - Give airplanes the ability to `.takeOff()` and `.land()`:
         + If a plane takes off, its `isFlying` property is set to true.
         + If a plane lands, its `isFlying` property is set to false.
 */
-
 // EXAMPLE SOLUTION CODE:
 function Airplane(name) {
   this.name = name;
@@ -18,14 +17,11 @@ Airplane.prototype.takeOff = function () {
 Airplane.prototype.land = function () {
   this.isFlying = false;
 };
-
-
 /*
-// 👇 COMPLETE YOUR WORK BELOW 👇
-// 👇 COMPLETE YOUR WORK BELOW 👇
-// 👇 COMPLETE YOUR WORK BELOW 👇
+// :point_down: COMPLETE YOUR WORK BELOW :point_down:
+// :point_down: COMPLETE YOUR WORK BELOW :point_down:
+// :point_down: COMPLETE YOUR WORK BELOW :point_down:
 */
-
 /*
   TASK 1
     - Write a Person Constructor that initializes `name` and `age` from arguments.
@@ -38,26 +34,22 @@ Airplane.prototype.land = function () {
     - Give instances of Person a method `.toString()`:
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
-
 function Person(name, age) {
   this.name = name;
   this.age = age;
   this.stomach = [];
 }
-
 Person.prototype.eat = function(food) {
   if (this.stomach.length < 10) {
     this.stomach.push(food);
   }
+};
 Person.prototype.poop = function() {
   this.stomach = [];
-}
-Person.prototype.toString() {
-  console.log(`${this.name}, ${this.age}`);
-}
-
-}
-
+};
+Person.prototype.toString = function() {
+  return `${this.name}, ${this.age}`;
+};
 /*
   TASK 2
     - Write a Car constructor that initializes `model` and `milesPerGallon` from arguments.
@@ -71,20 +63,25 @@ Person.prototype.toString() {
     - STRETCH: A car which runs out of `fuel` while driving can't drive any more distance:
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
-
 function Car(model, milesPerGallon) {
   this.model = model;
   this.milesPerGallon = milesPerGallon;
   this.tank = 0;
   this.odometer = 0;
-
-  Car.prototype.fill= function(gallons) {
-    this.tank += gallons;
-  }
-
-  
 }
-
+Car.prototype.fill = function(gallons) {
+  this.tank += gallons;
+};
+Car.prototype.drive = function(distance) {
+  this.odometer += distance;
+  const gallonsNeeded = distance / this.milesPerGallon;
+  this.tank -= gallonsNeeded;
+  if (this.tank <= 0) {
+    this.odometer -= this.milesPerGallon * Math.abs(this.tank);
+    this.tank = 0;
+    return `I ran out of gas at ${this.odometer} miles!`;
+  }
+};
 /*
   TASK 3
     - Write a Baby constructor subclassing Person.
@@ -92,28 +89,42 @@ function Car(model, milesPerGallon) {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.favoriteToy = favoriteToy;
 }
-
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function() {
+  return `Playing with ${this.favoriteToy}`;
+};
 /* 
   TASK 4
-
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+                            //What is the calling object? 
+  (Default Binding || Implicit Binding || Explicit Binding || New Binding)
+                      
+  1. Is the function called by new?
+  2. Is the function called by call(), apply(), or bind()?
+  3. Is the function called as a method, ie: obj.func()?
+  4. Is the function called in the global scope?
+     If strict mode is enabled, return undefined.
+     Otherwise, return the global object, ie: window.
 */
-
-
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
-if (typeof exports !== 'undefined') {
-  module.exports = module.exports || {}
-  if (Airplane) { module.exports.Airplane = Airplane }
-  if (Person) { module.exports.Person = Person }
-  if (Car) { module.exports.Car = Car }
-  if (Baby) { module.exports.Baby = Baby }
+if (typeof exports !== "undefined") {
+  module.exports = module.exports || {};
+  if (Airplane) {
+    module.exports.Airplane = Airplane;
+  }
+  if (Person) {
+    module.exports.Person = Person;
+  }
+  if (Car) {
+    module.exports.Car = Car;
+  }
+  if (Baby) {
+    module.exports.Baby = Baby;
+  }
 }
